@@ -11,14 +11,10 @@ namespace App\Admin;
 use App\Entity\Author;
 use App\Entity\Category;
 use App\Entity\Post;
-use phpDocumentor\Reflection\Types\Boolean;
-use function PHPSTORM_META\type;
-use function Sodium\add;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
-use Sonata\AdminBundle\Form\Type\Filter\ChoiceType;
 use Sonata\AdminBundle\Form\Type\ModelType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -32,8 +28,8 @@ class PostAdmin extends AbstractAdmin
         $list
             ->
             addIdentifier('title', TextType::class, [
-                'label' => 'Titulo
-            '])
+                'label' => 'Titulo'
+            ])
             ->
             add('category', null, [
                 'label' => 'Categoria',
@@ -50,18 +46,17 @@ class PostAdmin extends AbstractAdmin
     protected function configureFormFields(FormMapper $form)
     {
         $form
-            ->tab('Conteudo')
-            ->with('Conteudo', ['class' => 'col-md-8'])
+            ->tab('Conteúdo')
+            ->with('Conteúdo')
             ->add('title', TextType::class)
             ->add('content', TextareaType::class)
-            ->add('status', null, [
-                'required' => false
+            ->add('status', CheckboxType::class, [
+                'required' => false,
             ])
             ->end()
             ->end()
-
             ->tab('Auxiliar')
-            ->with('Auxiliar', ['class' => 'col-md-8'])
+            ->with("Auxiliar")
             ->add('category', ModelType::class, [
                 'class' => Category::class,
                 'property' => 'name',
@@ -69,29 +64,23 @@ class PostAdmin extends AbstractAdmin
             ])
             ->add('author', ModelType::class, [
                 'class' => Author::class,
-                'property' => 'name',
-                'multiple' => true
+                'property' => 'name'
             ])
             ->end()
             ->end();
-
     }
 
     protected function configureDatagridFilters(DatagridMapper $filter)
     {
-        $filter
-            ->add('title')
+        $filter->add('title')
             ->add('status')
-            ->add('category', null, [], EntityType::class, [
+            ->add("category", null, [], EntityType::class, [
                 'class' => Category::class,
-                'choice_label' => 'name'
-            ])
-            ->add('author', null, [], EntityType::class, [
-                'class' => Author::class,
-                'choice_label' => 'name'
+                'choice_label' => 'name',
+                'label' => 'Categorias'
             ]);
-
     }
+
 
     public function toString($object)
     {

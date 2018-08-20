@@ -45,5 +45,3 @@ services:
             arguments: [~, App\Entity\Author, ~]
             tags:
                 - { name: sonata.admin, manager_type: orm, group: "Auxiliares", label: Autores }
-
-
